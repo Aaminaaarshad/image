@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import { useLocation } from 'react-router-dom'
-import {updateTask} from '../../features/TaskSlice/TaskSlice'
+import {updateTask,getAllTask} from '../../features/TaskSlice/TaskSlice'
 import { useNavigate } from "react-router-dom";
 import {useDispatch } from 'react-redux'
 
@@ -15,6 +15,7 @@ const Update = () => {
   const onSubmit =(e)=>{
     e.preventDefault()
     dispatch(updateTask({id,task}))
+    // dispatch(getAllTask())
     navigate('/')
 }
 

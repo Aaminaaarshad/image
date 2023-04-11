@@ -17,7 +17,7 @@ export const getAllTask =createAsyncThunk('taskSlice/getAllTask',async(_, thunkA
                 Authorization: `Bearer ${token}`
             }
         }
-        const response = await axios.get("http://localhost:5000/api/task/getAllTasks",config)
+        const response = await axios.get("https://agile-crab-tux.cyclic.app/api/task/getAllTasks",config)
         const data = response.data
         return data
 
@@ -38,7 +38,7 @@ export const createTask =createAsyncThunk('taskSlice/createTask',async(task, thu
                 Authorization: `Bearer ${token}`
             }
          }
-        const response = await axios.post("http://localhost:5000/api/task/createTask",task, config)
+        const response = await axios.post("https://agile-crab-tux.cyclic.app/api/task/createTask",task, config)
         return response.data
     
        
@@ -59,7 +59,7 @@ export const deleteTask =createAsyncThunk('taskSlice/deleteTask',async(id, thunk
                 Authorization: `Bearer ${token}`
             }
          }
-        const response = await axios.delete(`http://localhost:5000/api/task/deleteTask/${id}`, config)
+        const response = await axios.delete(`https://agile-crab-tux.cyclic.app/api/task/deleteTask/${id}`, config)
         return response.data
     
        
@@ -81,7 +81,7 @@ export const updateTask =createAsyncThunk('taskSlice/updateTask',async({id,task}
                 Authorization: `Bearer ${token}`
             }
          }
-        const response = await axios.patch(`http://localhost:5000/api/task/updateTask/${id}`,task,config)
+        const response = await axios.patch(`https://agile-crab-tux.cyclic.app/api/task/updateTask/${id}`,task,config)
         const data = response.data
         console.log(response);
         return data
@@ -97,10 +97,24 @@ export const taskSlice = createSlice({
     name:"tasks",
     initialState,
     reducers:{
-        reset: (state)=> initialState
+        reset: (state)=> initialState,
     },
     extraReducers:(builder)=>{
         builder
+        .addCase(createTask.pending,(state)=>{
+            state.isLoading=true;
+        })
+        .addCase(createTask.fulfilled,(state,action)=>{
+            state.isLoading=false;
+            state.isSuccess=true
+            console.log(action);
+            state.tasks.push(action.payload)
+        })
+        .addCase(createTask.rejected,(state,action)=>{
+            state.isLoading=false;
+            state.isError=true;
+            state.message=action.payload.message
+        })
         .addCase(getAllTask.pending,(state)=>{
             state.isLoading=true;
         })
@@ -115,33 +129,20 @@ export const taskSlice = createSlice({
             state.isError=true;
             state.message=action.payload.message
         })
-        .addCase(createTask.pending,(state)=>{
-            state.isLoading=true;
-        })
-        .addCase(createTask.fulfilled,(state,action)=>{
-            state.isLoading=false;
-            state.isError=false;
-            state.isSuccess=true
-            console.log(action);
-            state.tasks.push(action.payload)
-        })
-        .addCase(createTask.rejected,(state,action)=>{
-            state.isSuccess=false
-            state.isLoading=false;
-            state.isError=true;
-            state.message=action.payload.message
-        })
         .addCase(deleteTask.pending,(state)=>{
             state.isLoading=true;
         })
         .addCase(deleteTask.fulfilled,(state,action)=>{
+            console.log(action.payload);
+            console.log(action.payload.deletedTask._id);
             state.isLoading=false;
             state.isSuccess=true
-            state.tasks = state.tasks.filter((task)=> task._id !== action.payload.id)
+            state.tasks = state.tasks.filter((task)=> task._id !== action.payload.deletedTask._id)
+            // state.tasks = action.payload
         })
         .addCase(deleteTask.rejected,(state,action)=>{
-            state.isError=true;
             state.isLoading=false;
+            state.isError=true;
             state.message=action.payload.message
         })
         .addCase(updateTask.pending,(state)=>{

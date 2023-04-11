@@ -18,7 +18,12 @@ app.use(cors())
 app.use('/api/task',taskRoutes)
 app.use('/api/user',userRoutes)
 
+
 app.use(errorMiddleware)
+
+app.get('/',(req,res)=>{
+    res.send('server is running')
+})
 
 const start=async()=>{
     await connectDB()

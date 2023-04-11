@@ -17,6 +17,7 @@ const Dashboard = () => {
 
   useEffect(()=>{
     if(isError){
+      console.log(message)
     }
     if(!user){
       navigate('/login')
@@ -48,7 +49,7 @@ if(isLoading){
             <TaskItem key={task._id} task={task}/>
           ))}
         </div>
-      ): (<h3> you have not set any task</h3>)}
+      ): tasks.length === 0 ? <h3>No Task Found</h3> :<Spinner/> }
     </section>
     </>
   )

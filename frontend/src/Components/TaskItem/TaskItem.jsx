@@ -8,10 +8,10 @@ const TaskItem = ({task}) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   
-  const clickDelete =(id)=>{
-    dispatch(deleteTask(id))
-    dispatch(getAllTask())
-  }
+  // const clickDelete =(id)=>{
+  //   dispatch(deleteTask(id))
+  //   dispatch(getAllTask())
+  // }
 
   return (
     <div className="goal">
@@ -20,7 +20,7 @@ const TaskItem = ({task}) => {
       </div>
       <h2>{task.task}</h2>
       <div className="taskButton">
-        <button onClick={()=>(clickDelete(task._id))} className="close">X</button>
+        <button onClick={()=>dispatch(deleteTask(task._id))} className="close">X</button>
         <button onClick={()=>navigate(`/update/${task._id}`)} className="edit"><GrEdit/></button>
       </div>
       
