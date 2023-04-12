@@ -17,7 +17,7 @@ export const getAllTask =createAsyncThunk('taskSlice/getAllTask',async(_, thunkA
                 Authorization: `Bearer ${token}`
             }
         }
-        const response = await axios.get("https://agile-crab-tux.cyclic.app/api/task/getAllTasks",config)
+        const response = await axios.get("https://worried-lion-tunic.cyclic.app/api/task/getAllTasks",config)
         const data = response.data
         return data
 
@@ -38,7 +38,7 @@ export const createTask =createAsyncThunk('taskSlice/createTask',async(task, thu
                 Authorization: `Bearer ${token}`
             }
          }
-        const response = await axios.post("https://agile-crab-tux.cyclic.app/api/task/createTask",task, config)
+        const response = await axios.post("https://worried-lion-tunic.cyclic.app/api/task/createTask",task, config)
         return response.data
     
        
@@ -59,7 +59,7 @@ export const deleteTask =createAsyncThunk('taskSlice/deleteTask',async(id, thunk
                 Authorization: `Bearer ${token}`
             }
          }
-        const response = await axios.delete(`https://agile-crab-tux.cyclic.app/api/task/deleteTask/${id}`, config)
+        const response = await axios.delete(`https://worried-lion-tunic.cyclic.app/api/task/deleteTask/${id}`, config)
         return response.data
     
        
@@ -81,7 +81,7 @@ export const updateTask =createAsyncThunk('taskSlice/updateTask',async({id,task}
                 Authorization: `Bearer ${token}`
             }
          }
-        const response = await axios.patch(`https://agile-crab-tux.cyclic.app/api/task/updateTask/${id}`,task,config)
+        const response = await axios.patch(`https://worried-lion-tunic.cyclic.app/api/task/updateTask/${id}`,task,config)
         const data = response.data
         console.log(response);
         return data

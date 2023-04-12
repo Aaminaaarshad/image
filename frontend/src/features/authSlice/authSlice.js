@@ -17,7 +17,7 @@ const initialState ={
 export const register = createAsyncThunk('authSlice/register',async(userData, thunkAPI)=>{
     console.log(userData);
     try {
-        const response = await axios.post('https://agile-crab-tux.cyclic.app/api/user/registerUser',userData)
+        const response = await axios.post('https://worried-lion-tunic.cyclic.app/api/user/registerUser',userData)
         if(response.data){
             localStorage.setItem('user',JSON.stringify(response.data))
         }
@@ -37,7 +37,7 @@ export const  logout = createAsyncThunk('auth/logout',async ()=>{
 export const login = createAsyncThunk('authSlice/login',async(userData, thunkAPI)=>{
     console.log(userData);
     try {
-        const response = await axios.post('https://agile-crab-tux.cyclic.app/api/user/loginUser',userData)
+        const response = await axios.post('https://worried-lion-tunic.cyclic.app/api/user/loginUser',userData)
         if(response.data){
             localStorage.setItem('user',JSON.stringify(response.data))
         }
