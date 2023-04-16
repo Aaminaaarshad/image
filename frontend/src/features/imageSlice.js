@@ -2,11 +2,12 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from "axios";
 
 const initialState = {
-    img: [],
+    img: "",
     isSuccess: false,
     isLoading: false,
     isError: false,
-    message: ""
+    message: "",
+    url:""
 }
 
 export const getImage =createAsyncThunk('imageSlice/getImage',async(_, thunkAPI)=>{
@@ -23,10 +24,15 @@ export const getImage =createAsyncThunk('imageSlice/getImage',async(_, thunkAPI)
 })
 
 
-export const createImage =createAsyncThunk('imageSlice/createImage',async({newData,config}, thunkAPI)=>{
+export const createImage =createAsyncThunk('imageSlice/createImage',async({formData,config}, thunkAPI)=>{
     try {
-        const response = await axios.post("http://localhost:5000/api/task/createImage",newData,config)
+
+        console.log(config,"sss")
+        console.log(formData,"saaass")
+        const response = await axios.post("http://localhost:5000/api/task/createImage",formData,config)
+    
         const data = response.data
+        console.log(data,"response aya")
         return data
 }
  catch (error) {
@@ -88,8 +94,9 @@ export const imageSlice = createSlice({
         .addCase(createImage.fulfilled,(state,action)=>{
             state.isLoading=false;
             state.isSuccess=true
-            console.log(action);
-            state.image.push(action.payload)
+            state.img = action.payload
+            console.log(action.payload,"payload")
+            state.url = action.payload.newImage.image
         })
         .addCase(createImage.rejected,(state,action)=>{
             state.isLoading=false;

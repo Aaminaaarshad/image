@@ -3,51 +3,61 @@ import { useSelector, useDispatch } from 'react-redux'
 import {getImage,createImage, reset} from '../../features/imageSlice'
 
 const ImageUpload = () => {
+  const {url}  =  useSelector((store)=>store.img)
+  console.log(url,"URL")
     const dispatch = useDispatch()
-    const [formData, setFormData] = useState({
+    const [data, setdata] = useState({
         name:'',
         description:'',
         image:''
     })
 
-    // const {name, discription,image} = formData
+
+    // const {name, discription,image} = data
     const onChange =(e)=>{
-        setFormData({
-            ...formData,
+        setdata({
+            ...data,
             [e.target.name]:e.target.value})
     }
-    console.log(formData,'formdata');
 
     const onSubmit =(e)=>{
+        console.log(data.image,"sssdsd")
         e.preventDefault()
-        const data = new FormData()
-        data.append('name', formData.name)
-        data.append('description', formData.description)
-        data.append('image', formData.image)
-
         const config = {
             header:{
-                'content-type': 'multipart/form-data'
+              'content-type': 'multipart/form-data'
+    
             }
           }
+          if(data.name!=="" || data.description!=="" || data.description!==""){
+            const formData = new FormData()
+            formData.append('name', data.name)
+            formData.append('description', data.description)
+            formData.append('image', data.image)
+        dispatch(createImage({formData,config}))
+          }else{
+            console.log("Provide data first")
+          }
+    
 
-        console.log(formData)
-        dispatch(createImage({data,config}))
+       
     }
         
-          const {name,description,image} = formData
-      
+          
 
 
+    
+    const {name,description,image} = data
   return (
     <section>
         <form onSubmit={onSubmit}>
             <div className='form-group'>
                 <input type='text' id='name' name='name' value={name} placeholder='Enter your name' onChange={onChange}/>
                 <input type='text' id='description' name='description' value={description} placeholder='Enter description' onChange={onChange}/>
-                <input type="file" id="image" accept="image/*" name="image" onChange={onChange}/>
+                <input type="file" id="image" accept="image/*" name="image"  onChange={(e)=>setdata({...data,["image"]:e.target.files[0]})}/>
                 <button className='btn btn-block' type='submit'>Submit</button>
             </div>
+            <img src={url} alt="" />
         </form>
     </section>
   )

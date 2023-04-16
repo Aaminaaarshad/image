@@ -6,33 +6,44 @@ const connectDB = require('./DB/DB')
 const taskRoutes = require('./Routes/taskRoutes')
 const userRoutes = require('./Routes/userRoutes')
 const {errorMiddleware} = require('./Middleware/errorMiddleware')
-const Img = require('./Model/imageModel')
+const ImageModel = require('./Model/imageModel')
 
 
 const app = express()
+app.use(cors())
 const path = require('path')
 const multer = require('multer')
-
+app.set('view engine','ejs')
+app.use('/Images', express.static(path.join(__dirname, 'Images')));
 
 const storage = multer.diskStorage({
     destination:(req,file,cb)=>{
         cb(null,'Images')
     },
     filename:(req,file,cb)=>{
-        console.log(file);
+        console.log("sss");
         cb(null,Date.now() + path.extname(file.originalname))
     }
 })
 
+
+
 const upload=multer({storage:storage})
-app.set('view engine','ejs')
 
 app.post('/api/task/createImage',upload.single('image'),async(req,res)=>{
     try {
-        const newImage = await Img.create(req.body)
     console.log(req.body,'bodyyyyy')
-    console.log(newImage)
-    res.send(newImage)
+
+        const {name, description} =  req.body
+
+        if(!name || !description){
+            res.send({message:"provide valid input, both name and description"})
+        }else{
+          
+            const newImage = await ImageModel.create({name, description, image:`http://localhost:5000/Images/1681615725799.PNG`})
+            res.send({message:"Success", newImage})
+        }
+
     } catch (error) {
         console.log(error);
     }

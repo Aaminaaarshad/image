@@ -5,7 +5,7 @@ import TaskForm from "../../Components/TaskForm/TaskForm";
 import Spinner from '../../Components/Spinner/Spinner'
 import {getAllTask ,reset} from '../../features/TaskSlice/TaskSlice'
 import TaskItem from "../../Components/TaskItem/TaskItem";
-
+import { Link } from "react-router-dom";
 
 const Dashboard = () => {
   const navigate = useNavigate()
@@ -39,6 +39,7 @@ if(isLoading){
       {/* ////it means if user exist then show its name */}
       <h1>Welcome {user && user.name}</h1>
       <p>Goals Dashboard</p>
+      <Link to="/upload">Image</Link>
     </section>
     <TaskForm/>
 

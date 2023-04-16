@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const userSchema = mongoose.Schema({
+const ImageSchema = mongoose.Schema({
     name:{
         type:String,
         required:[true,"Please add a name"]
@@ -13,4 +13,4 @@ const userSchema = mongoose.Schema({
         // required:[true,"Please add a image"]
     }
 },{timestamps:true})
-module.exports = mongoose.model('Img',userSchema)
+module.exports = mongoose.model('ImageModel',ImageSchema)
